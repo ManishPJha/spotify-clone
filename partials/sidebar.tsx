@@ -1,5 +1,7 @@
 'use client'
 
+import Image from 'next/image'
+import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { memo } from 'react'
 import { FiHeart as HeartIcon, FiPlus as PlusIcon } from 'react-icons/fi'
@@ -9,8 +11,8 @@ import {
   RiSearchLine as SearchIcon,
 } from 'react-icons/ri'
 
-import { createButton } from '@/components/Buttons/button-with-redirect'
-import Link from 'next/link'
+import { createButton } from '@/components/buttons/button-with-redirect'
+import SpotifyLogo from '@public/logo.png'
 
 const Sidebar = memo(function Sidebar() {
   const pathname = usePathname()
@@ -56,6 +58,16 @@ const Sidebar = memo(function Sidebar() {
 
   return (
     <aside className="w-64 bg-black p-6 border-r border-r-zinc-400">
+      <div>
+        <Image
+          priority
+          src={SpotifyLogo}
+          alt="spotify-logo"
+          className="invert"
+          height={100}
+          width={80}
+        />
+      </div>
       <nav className="space-y-5 mt-7">
         {HomeButton}
         {SearchButton}
