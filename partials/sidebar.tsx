@@ -11,7 +11,7 @@ import {
   RiSearchLine as SearchIcon,
 } from 'react-icons/ri'
 
-import { createButton } from '@/components/buttons/button-with-redirect'
+import { createButton } from '@/app/ui/buttons/button-with-redirect'
 import SpotifyLogo from '@public/logo.png'
 
 const Sidebar = memo(function Sidebar() {

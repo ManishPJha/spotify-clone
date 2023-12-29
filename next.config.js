@@ -10,6 +10,10 @@ const nextConfig = {
         hostname: 'storage.googleapis.com',
         protocol: 'https',
       },
+      {
+        hostname: 'picsum.photos',
+        protocol: 'https',
+      },
     ],
     dangerouslyAllowSVG: true,
   },
