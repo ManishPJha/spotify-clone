@@ -13,7 +13,6 @@ type AlbumCardProps = {
   imageWidth?: string | number
   className?: string
 }
-
 const AlbumCard = ({
   imageSrc,
   cardTitle,
