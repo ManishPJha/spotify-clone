@@ -1,30 +1,32 @@
 'use client'
 
 import Link from 'next/link'
-import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import {
   RiArrowLeftSLine as ArrowLeft,
   RiArrowRightSLine as ArrowRight,
 } from 'react-icons/ri'
-import { twMerge } from 'tailwind-merge'
 
 const Header = () => {
-  const [isReached, setIsReached] = useState(true)
+  const router = useRouter()
 
-  const className = 'p-2 box-content'
+  const moveForward = () => router.forward()
 
-  const arrowStyles = twMerge(
-    className,
-    isReached ? 'cursor-not-allowed' : 'cursor-pointer'
-  )
+  const moveBackward = () => router.back()
 
   return (
     <div className="flex justify-between">
       <div className="flex item-scenter gap-4">
-        <button className="rounded-full h-10 bg-black/40 px-1">
+        <button
+          className="rounded-full h-10 bg-black/40 px-1"
+          onClick={moveBackward}
+        >
           <ArrowLeft size={28} className="pr-1" />
         </button>
-        <button className="rounded-full h-10 bg-black/40 px-1">
+        <button
+          className="rounded-full h-10 bg-black/40 px-1"
+          onClick={moveForward}
+        >
           <ArrowRight size={28} className="pl-1" />
         </button>
       </div>

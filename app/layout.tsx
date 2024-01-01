@@ -1,13 +1,16 @@
+import Footer from '@/partials/footer'
 import Header from '@/partials/header'
 import Sidebar from '@/partials/sidebar'
+
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import './globals.css'
-import './tailwind.css'
+
+import Providers from './providers'
 
 import 'slick-carousel/slick/slick-theme.css'
 import 'slick-carousel/slick/slick.css'
-import Providers from './providers'
+import './globals.css'
+import './tailwind.css'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -34,7 +37,6 @@ export default function RootLayout({
         <body className={inter.className}>
           <div className="h-screen flex flex-col">
             <div className="flex flex-1 justify-between">
-              {/* <Header /> */}
               <Sidebar />
               <main className="flex-1 p-6 max-h-screen overflow-y-auto">
                 <Header />
@@ -42,6 +44,7 @@ export default function RootLayout({
                 {children}
               </main>
             </div>
+            <Footer />
           </div>
         </body>
       </html>
