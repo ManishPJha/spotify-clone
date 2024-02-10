@@ -1,7 +1,3 @@
-import Footer from '@/partials/footer'
-import Header from '@/partials/header'
-import Sidebar from '@/partials/sidebar'
-
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 
@@ -32,22 +28,10 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <Providers>
-      <html lang="en">
-        <body className={inter.className}>
-          <div className="h-screen flex flex-col">
-            <div className="flex flex-1 justify-between">
-              <Sidebar />
-              <main className="flex-1 p-6 max-h-screen overflow-y-auto">
-                <Header />
-                <h1 className="font-semibold text-3xl mt-8">Good Evening</h1>
-                {children}
-              </main>
-            </div>
-            <Footer />
-          </div>
-        </body>
-      </html>
-    </Providers>
+    <html>
+      <Providers>
+        <body className={inter.className}>{children}</body>
+      </Providers>
+    </html>
   )
 }

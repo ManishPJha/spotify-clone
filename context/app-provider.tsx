@@ -15,6 +15,7 @@ type AppCtxActions = {
 
 const initState: any = {
   pageHistoryStack: [],
+  isAuthenticated: false,
 }
 
 const AppContext = createContext<typeof initState>(initState)

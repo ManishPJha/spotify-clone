@@ -40,7 +40,11 @@ const Footer = () => {
         <div className="flex items-center gap-7">
           <ShuffleIcon size={20} className="text-zinc-200" />
           <SkipBackIcon size={20} className="text-zinc-200" />
-          <button className="w-10 h-10 flex items-center justify-center pl-1 rounded-full bg-white text-black">
+          <button
+            id="play-button"
+            aria-label="play button"
+            className="w-10 h-10 flex items-center justify-center pl-1 rounded-full bg-white text-black"
+          >
             <PlayIcon />
           </button>
           <SkipForwardIcon size={20} className="text-zinc-200" />

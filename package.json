@@ -1,5 +1,6 @@
 {
-  "name": "spotify-clone",
+  "name": "club-9",
+  "description": "club-9 is a open source music web app.",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -10,9 +11,12 @@
   },
   "dependencies": {
     "@headlessui/react": "^1.7.17",
+    "@types/qs": "^6.9.11",
     "@types/react-beautiful-dnd": "^13.1.8",
     "next": "14.0.4",
+    "qs": "^6.11.2",
     "react": "^18",
+    "react-avatar": "^5.0.3",
     "react-beautiful-dnd": "^13.1.1",
     "react-dom": "^18",
     "react-icons": "^4.12.0",
@@ -24,6 +28,7 @@
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "autoprefixer": "^10.0.1",
+    "cssnano": "^6.0.3",
     "daisyui": "^4.4.24",
     "eslint": "^8",
     "eslint-config-next": "14.0.4",

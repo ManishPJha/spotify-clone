@@ -18,12 +18,16 @@ const Header = () => {
     <div className="flex justify-between">
       <div className="flex item-scenter gap-4">
         <button
+          id="arrow-left"
+          aria-label="button left"
           className="rounded-full h-10 bg-black/40 px-1"
           onClick={moveBackward}
         >
           <ArrowLeft size={28} className="pr-1" />
         </button>
         <button
+          id="arrow-right"
+          aria-label="button right"
           className="rounded-full h-10 bg-black/40 px-1"
           onClick={moveForward}
         >

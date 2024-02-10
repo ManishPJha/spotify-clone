@@ -1,13 +1,12 @@
 'use client'
 
 import Image from 'next/image'
-import Link from 'next/link'
 
 import { FaPlay as PlayIcon } from 'react-icons/fa'
 import { twMerge } from 'tailwind-merge'
 
 import { useState } from 'react'
-import RequireAuthModal from '../modals/RequireAuthModal'
+import AuthModalWithAlbum from '../modals/auth-modal-with-album'
 
 type CoverCardProps = Omit<AlbumCardProps, 'cardType' | 'redirectTo'>
 type NormalCardProps = Omit<AlbumCardProps, 'cardType' | 'redirectTo'>
@@ -28,8 +27,7 @@ const AlbumCard = ({
       : 'p-2 flex-col'
 
   return (
-    <Link
-      href={redirectTo ? redirectTo : '#'}
+    <div
       className={twMerge(
         'flex bg-white/5 rounded-md group' + ' ' + CardAnchorStyles
       )}
@@ -53,7 +51,7 @@ const AlbumCard = ({
           imageClassName={imageClassName}
         />
       )}
-    </Link>
+    </div>
   )
 }
 
@@ -63,22 +61,40 @@ export const CoverCard = ({
   imageHeight,
   imageWidth,
   cardTitle,
-}: CoverCardProps) => (
-  <>
-    <Image
-      priority
-      src={imageSrc}
-      alt="Album cover"
-      className={twMerge('rounded-md p-1', imageClassName)}
-      width={Number(imageHeight)}
-      height={Number(imageWidth)}
-    />
-    <strong className="text-xl overflow-x-auto truncate">{cardTitle}</strong>
-    <button className="w-12 h-12 flex items-center justify-center pl-1 rounded-full bg-green-600 text-black ml-auto mr-8 invisible group-hover:visible">
-      <PlayIcon />
-    </button>
-  </>
-)
+}: CoverCardProps) => {
+  const [isOpen, setIsOpen] = useState(false)
+
+  const bool = false
+
+  const handlePlayEvent = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault()
+
+    if (!bool) setIsOpen(true)
+
+    return
+  }
+
+  return (
+    <>
+      <Image
+        priority
+        src={imageSrc}
+        alt="Album cover"
+        className={twMerge('rounded-md p-1', imageClassName)}
+        width={Number(imageHeight)}
+        height={Number(imageWidth)}
+      />
+      <strong className="text-xl overflow-x-auto truncate">{cardTitle}</strong>
+      <button
+        className="w-12 h-12 flex items-center justify-center pl-1 rounded-full bg-green-600 text-black ml-auto mr-8 invisible group-hover:visible"
+        onClick={handlePlayEvent}
+      >
+        <PlayIcon />
+      </button>
+      <AuthModalWithAlbum open={isOpen} setOpen={setIsOpen} />
+    </>
+  )
+}
 
 export const NormalCard = ({
   imageSrc,
@@ -122,7 +138,7 @@ export const NormalCard = ({
       >
         <PlayIcon />
       </button>
-      <RequireAuthModal open={isOpen} setOpen={setIsOpen} />
+      {isOpen && <AuthModalWithAlbum open={isOpen} setOpen={setIsOpen} />}
     </>
   )
 }
