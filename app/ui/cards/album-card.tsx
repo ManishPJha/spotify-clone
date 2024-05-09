@@ -1,7 +1,6 @@
 'use client'
 
 import { CldImage } from 'next-cloudinary'
-import Image from 'next/image'
 
 import { FaPlay as PlayIcon } from 'react-icons/fa'
 
@@ -67,6 +66,7 @@ export const CoverCard = ({
   imageHeight,
   imageWidth,
   cardTitle,
+  blurImgSrc,
 }: CoverCardProps) => {
   const [isOpen, setIsOpen] = useState(false)
 
@@ -82,17 +82,23 @@ export const CoverCard = ({
     return
   }
 
+  const title =
+    cardTitle.length > 20 ? cardTitle.slice(0, 15) + '...' : cardTitle
+
   return (
     <>
-      <Image
-        priority
+      <CldImage
+        alt="album cover"
         src={imageSrc}
-        alt="Album cover"
         className={coverCardClassNames}
         width={Number(imageHeight)}
         height={Number(imageWidth)}
+        sizes="100vw"
+        placeholder="blur"
+        blurDataURL={blurImgSrc}
+        priority
       />
-      <strong className="text-xl overflow-x-auto truncate">{cardTitle}</strong>
+      <strong className="text-xl overflow-x-auto">{title}</strong>
       <button
         className="w-12 h-12 flex items-center justify-center pl-1 rounded-full bg-green-600 text-black ml-auto mr-8 invisible group-hover:visible"
         onClick={handlePlayEvent}
@@ -147,7 +153,7 @@ export const NormalCard = ({
         {cardDescription}
       </span>
       <button
-        className="w-12 h-12 absolute flex items-center justify-center pl-1 rounded-full bg-green-600 text-black bottom-24 right-4 invisible group-hover:visible"
+        className="w-12 h-12 absolute flex items-center justify-center pl-1 rounded-full bg-green-600 text-black bottom-24 md:bottom-20 right-4 invisible group-hover:visible"
         onClick={handlePlayEvent} //TODO: add event to play stack top index track
       >
         <PlayIcon />

@@ -11,8 +11,6 @@ import {
 
 interface PlayerControlsProps {
   isPlaying: boolean
-  // isMute: boolean
-  // setMute: () => void
   queue: PlayerTrack[]
   isRepeat: boolean
   setRepeat: Dispatch<SetStateAction<boolean>>

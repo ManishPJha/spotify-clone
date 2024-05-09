@@ -19,6 +19,9 @@ const AudioPlayer = ({ currentTrack, queue = [] }: AudioPlayerProps) => {
   const [shuffle, setShuffle] = useState(false)
   const [loop, setLoop] = useState(false)
   const [muted, setMuted] = useState(false)
+  const [appTime, setAppTime] = useState(0)
+  const [duration, setDuration] = useState(0)
+  const [seekTime, setSeekTime] = useState(0)
 
   const audioTrack =
     'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3'
@@ -47,7 +50,13 @@ const AudioPlayer = ({ currentTrack, queue = [] }: AudioPlayerProps) => {
         handlePlayNext={handlePlayNext}
         handlePlayPrevious={handlePlayPrevious}
       />
-      <Player playingTrack={currentTrack.audio} repeat={repeat} muted={muted} />
+      <Player
+        playingTrack={currentTrack?.audio}
+        repeat={repeat}
+        muted={muted}
+        onTimeUpdate={(e) => setAppTime(e.currentTarget.currentTime)}
+        onLoadedData={(e) => setDuration(e.currentTarget.duration)}
+      />
     </>
   )
 }

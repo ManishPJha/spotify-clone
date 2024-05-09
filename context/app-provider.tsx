@@ -8,6 +8,7 @@ import {
   FORWARD_PAGE,
 } from '@/constants/context'
 import * as PLAYER from '@/constants/player'
+import recentlyPlayedCache from '@/utils/cache'
 
 export type AppCtxActions = {
   type: string
@@ -76,8 +77,14 @@ const reducer = (state = initState, action: AppCtxActions) => {
 
     // player actions
     case PLAYER.PLAY:
-      state = { ...state, isPlayingTrack: true, tracks: action.payload }
-      break
+      const cachedData = recentlyPlayedCache(
+        action.payload?.key,
+        action.payload?.value
+      )
+      state.isPlayingTrack = true
+      state.tracks = [...cachedData]
+
+      return state
     case PLAYER.PAUSE:
       state = { ...state, isPlayingTrack: false }
       break

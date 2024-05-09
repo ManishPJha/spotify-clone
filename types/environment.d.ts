@@ -4,7 +4,6 @@ declare global {
       NEXT_PUBLIC_UNSPLASH_APP_ID: string
       NEXT_PUBLIC_ACCESS_KEY: string
       NEXT_PUBLIC_SECRET_KEY: string
-      NEXT_PUBLIC_REVALIDATE_TIME: string
       NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: string
       NEXT_PUBLIC_CLOUDINARY_API_KEY: string
       CLOUDINARY_API_SECRET: string
