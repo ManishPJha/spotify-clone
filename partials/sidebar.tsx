@@ -12,7 +12,8 @@ import {
 } from 'react-icons/ri'
 
 import { createButton } from '@/app/ui/buttons/button-with-redirect'
-import SpotifyLogo from '@public/logo.png'
+import Typography from '@/app/ui/typography'
+import Logo from '@public/images/icons/club9.png'
 
 const Sidebar = memo(function Sidebar() {
   const pathname = usePathname()
@@ -58,15 +59,14 @@ const Sidebar = memo(function Sidebar() {
 
   return (
     <aside className="w-64 bg-black p-6 border-r border-r-zinc-400">
-      <div>
-        <Image
-          priority
-          src={SpotifyLogo}
-          alt="spotify-logo"
-          className="invert"
-          height={100}
-          width={80}
-        />
+      <div className="flex justify-start items-center cursor-pointer">
+        <Image priority src={Logo} alt="spotify-logo" height={100} width={80} />
+        <Typography
+          as="h3"
+          className="bg-gradient-to-r from-green-400 to-blue-500 text-transparent bg-clip-text invert"
+        >
+          Club9
+        </Typography>
       </div>
       <nav className="space-y-5 mt-7">
         {HomeButton}

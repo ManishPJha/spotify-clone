@@ -11,11 +11,11 @@ import './tailwind.css'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Spotify Clone',
-  description: 'Create your favourite playlists, Anytime!',
+  title: 'Club9',
+  description: 'Listen to your favourite playlists, Anytime!',
   icons: [
     {
-      url: '/favicon.png',
+      url: '/favicon.ico',
       type: 'image/png',
       sizes: '474x474',
     },

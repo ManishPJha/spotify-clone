@@ -15,7 +15,6 @@ const nextConfig = {
         protocol: 'https',
       },
     ],
-    dangerouslyAllowSVG: true,
   },
 }
 

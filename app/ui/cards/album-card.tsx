@@ -1,15 +1,18 @@
 'use client'
 
+import { CldImage } from 'next-cloudinary'
 import Image from 'next/image'
 
 import { FaPlay as PlayIcon } from 'react-icons/fa'
-import { twMerge } from 'tailwind-merge'
 
+import { cn } from '@/utils'
 import { useState } from 'react'
 import AuthModalWithAlbum from '../modals/auth-modal-with-album'
 
-type CoverCardProps = Omit<AlbumCardProps, 'cardType' | 'redirectTo'>
-type NormalCardProps = Omit<AlbumCardProps, 'cardType' | 'redirectTo'>
+type ExcludedFields = 'cardType' | 'redirectTo' | 'audioSrc'
+
+type CoverCardProps = Omit<AlbumCardProps, ExcludedFields>
+type NormalCardProps = Omit<AlbumCardProps, ExcludedFields>
 
 const AlbumCard = ({
   imageSrc,
@@ -20,18 +23,19 @@ const AlbumCard = ({
   imageClassName,
   imageHeight = 110,
   imageWidth = 100,
+  ...rest
 }: AlbumCardProps) => {
   const CardAnchorStyles =
     cardType === 'cover'
       ? 'items-center gap-4 hover:bg-white/10 transition-colors'
       : 'p-2 flex-col'
 
+  const cardClassNames = cn(
+    'flex bg-white/5 rounded-md group' + ' ' + CardAnchorStyles
+  )
+
   return (
-    <div
-      className={twMerge(
-        'flex bg-white/5 rounded-md group' + ' ' + CardAnchorStyles
-      )}
-    >
+    <div className={cardClassNames}>
       {cardType === 'cover' ? (
         <CoverCard
           cardTitle={cardTitle}
@@ -40,6 +44,7 @@ const AlbumCard = ({
           imageHeight={imageHeight}
           imageWidth={imageWidth}
           imageClassName={imageClassName}
+          blurImgSrc={rest.blurImgSrc}
         />
       ) : (
         <NormalCard
@@ -49,6 +54,7 @@ const AlbumCard = ({
           imageHeight={imageHeight}
           imageWidth={imageWidth}
           imageClassName={imageClassName}
+          blurImgSrc={rest.blurImgSrc}
         />
       )}
     </div>
@@ -63,6 +69,8 @@ export const CoverCard = ({
   cardTitle,
 }: CoverCardProps) => {
   const [isOpen, setIsOpen] = useState(false)
+
+  const coverCardClassNames = cn('rounded-md p-1', imageClassName)
 
   const bool = false
 
@@ -80,7 +88,7 @@ export const CoverCard = ({
         priority
         src={imageSrc}
         alt="Album cover"
-        className={twMerge('rounded-md p-1', imageClassName)}
+        className={coverCardClassNames}
         width={Number(imageHeight)}
         height={Number(imageWidth)}
       />
@@ -103,8 +111,11 @@ export const NormalCard = ({
   imageClassName,
   cardTitle,
   cardDescription,
+  blurImgSrc,
 }: NormalCardProps) => {
   const [isOpen, setIsOpen] = useState(false)
+
+  const albumCardClassNames = cn('rounded-md w-full h-[100%]', imageClassName)
 
   const bool = false
 
@@ -118,13 +129,16 @@ export const NormalCard = ({
 
   return (
     <>
-      <Image
-        priority
+      <CldImage
+        alt="album cover"
         src={imageSrc}
-        alt="Album cover"
-        className={twMerge('rounded-md w-full', imageClassName)}
+        className={albumCardClassNames}
         width={Number(imageHeight)}
         height={Number(imageWidth)}
+        sizes="100vw"
+        placeholder="blur"
+        blurDataURL={blurImgSrc}
+        priority
       />
       <strong className="text-md mt-3 mb-2 pl-2 font-bold overflow-x-auto truncate">
         {cardTitle}

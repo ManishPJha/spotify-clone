@@ -7,18 +7,63 @@ import {
   DESTROY_PAGE_HISTORY,
   FORWARD_PAGE,
 } from '@/constants/context'
+import * as PLAYER from '@/constants/player'
 
-type AppCtxActions = {
+export type AppCtxActions = {
   type: string
   payload?: any
 }
 
-const initState: any = {
-  pageHistoryStack: [],
-  isAuthenticated: false,
+type Artist = {
+  name: string
+  image: string
+  id: string
 }
 
-const AppContext = createContext<typeof initState>(initState)
+type AudioTrack = {
+  id: string
+  title: string
+  artist: Artist
+  album: string
+  image: string
+  audio: string
+}
+
+export interface PlayerTrack extends AudioTrack {
+  isPlaying: boolean
+  isLoop: boolean
+  isMuted: boolean
+}
+
+export interface ContextState {
+  pageHistoryStack: Array<any>
+  isAuthenticated: boolean
+  isPlayingTrack: boolean
+  tracks: PlayerTrack[]
+  isPlayingAlbum: boolean
+  albums: PlayerTrack[]
+  isPlayingPlaylist: false
+  playlists: []
+  isPlayingRadio: false
+  volume: number
+  shuffle: boolean
+}
+
+const initState: ContextState = {
+  pageHistoryStack: [],
+  isAuthenticated: false,
+  isPlayingTrack: true,
+  tracks: [],
+  isPlayingAlbum: false,
+  albums: [],
+  isPlayingPlaylist: false,
+  playlists: [],
+  isPlayingRadio: false,
+  volume: 100,
+  shuffle: false,
+}
+
+export const AppContext = createContext<ContextState | any>(initState)
 
 const reducer = (state = initState, action: AppCtxActions) => {
   switch (action.type) {
@@ -28,6 +73,45 @@ const reducer = (state = initState, action: AppCtxActions) => {
       break
     case DESTROY_PAGE_HISTORY:
       break
+
+    // player actions
+    case PLAYER.PLAY:
+      state = { ...state, isPlayingTrack: true, tracks: action.payload }
+      break
+    case PLAYER.PAUSE:
+      state = { ...state, isPlayingTrack: false }
+      break
+    case PLAYER.NEXT:
+      state = { ...state, isPlayingTrack: true, tracks: action.payload }
+      break
+    case PLAYER.PREV:
+      state = { ...state, isPlayingTrack: true, tracks: action.payload }
+      break
+    case PLAYER.SET_VOLUME:
+      state = { ...state, volume: action.payload }
+      break
+    case PLAYER.SET_SHUFFLE:
+      state = { ...state, shuffle: action.payload }
+      break
+    case PLAYER.ADD_TO_QUEUE:
+      state = { ...state, tracks: action.payload }
+      break
+    case PLAYER.REMOVE_FROM_QUEUE:
+      state = { ...state, tracks: action.payload }
+      break
+    case PLAYER.CLEAR_QUEUE:
+      state = { ...state, tracks: [] }
+      break
+    // case PLAYER.LOOP:
+    //   break
+    // case PLAYER.SET_MUTE:
+    //   break
+    // case PLAY_ALBUM:
+    //   break
+    // case PLAY_PLAYLIST:
+    //   break
+    // case PLAY_RADIO:
+    //   break
 
     default:
       throw new Error(`invalid ${action.type} passed`)
