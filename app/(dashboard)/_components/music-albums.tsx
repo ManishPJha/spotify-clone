@@ -1,7 +1,14 @@
+import { Track } from '@/types/context/app-provider'
 import { AlbumCard } from '@app/ui/cards/index'
 
 type MusicAlbumsProps = {
-  items: AlbumCardProps[] | []
+  items: Array<
+    Track & {
+      blurImgSrc: string
+      imageHeight?: string | number
+      imageWidth?: string | number
+    }
+  >
 }
 
 const MusicAlbums = ({ items }: MusicAlbumsProps) => {
@@ -14,16 +21,18 @@ const MusicAlbums = ({ items }: MusicAlbumsProps) => {
           items.map((item, index) => (
             <AlbumCard
               key={index}
-              cardTitle={item.cardTitle}
-              cardDescription={item.cardDescription}
-              imageSrc={item.imageSrc}
-              redirectTo={`/playlist?${index}`}
+              cardTitle={item.title}
+              cardDescription={item.description}
+              imageSrc={item.image}
               cardType="normal"
-              audioSrc={item.audioSrc}
               blurImgSrc={item.blurImgSrc}
-              imageClassName={item.imageClassName}
               imageHeight={item.imageHeight}
               imageWidth={item.imageWidth}
+              track={{
+                ...item,
+                isPlaying: false,
+              }}
+              index={index}
             />
           ))}
       </div>

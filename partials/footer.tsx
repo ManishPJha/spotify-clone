@@ -20,14 +20,19 @@
 import { useMemo } from 'react'
 
 import AudioPlayer from '@/app/ui/player'
-import { useAppContext } from '@/hooks/use-app-context'
+import { useAppContext } from '@/context/app-provider'
 
 const Footer = () => {
-  const { state, dispatch } = useAppContext()
+  const [state] = useAppContext()
 
   const playerTracks = useMemo(() => state.tracks, [state.tracks])
 
   const currentTrack = playerTracks.find((track) => track.isPlaying)
+
+  // useEffect(() => {
+  //   if (state.tracks.length)
+  //     console.log('🍁if(state.tracks.length)', state.tracks)
+  // }, [state.tracks])
 
   // if track is not playing do not show player
   if (!state.isPlayingTrack) return null

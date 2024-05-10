@@ -1,6 +1,6 @@
 'use client'
 
-import { createContext, useMemo, useReducer } from 'react'
+import { Dispatch, createContext, useContext, useMemo, useReducer } from 'react'
 
 import {
   BACKWARD_PAGE,
@@ -10,61 +10,23 @@ import {
 import * as PLAYER from '@/constants/player'
 import recentlyPlayedCache from '@/utils/cache'
 
-export type AppCtxActions = {
-  type: string
-  payload?: any
-}
-
-type Artist = {
-  name: string
-  image: string
-  id: string
-}
-
-type AudioTrack = {
-  id: string
-  title: string
-  artist: Artist
-  album: string
-  image: string
-  audio: string
-}
-
-export interface PlayerTrack extends AudioTrack {
-  isPlaying: boolean
-  isLoop: boolean
-  isMuted: boolean
-}
-
-export interface ContextState {
-  pageHistoryStack: Array<any>
-  isAuthenticated: boolean
-  isPlayingTrack: boolean
-  tracks: PlayerTrack[]
-  isPlayingAlbum: boolean
-  albums: PlayerTrack[]
-  isPlayingPlaylist: false
-  playlists: []
-  isPlayingRadio: false
-  volume: number
-  shuffle: boolean
-}
+import type {
+  AppCtxActions,
+  ContextState,
+  PlayerTrack,
+} from '@/types/context/app-provider'
 
 const initState: ContextState = {
   pageHistoryStack: [],
   isAuthenticated: false,
-  isPlayingTrack: true,
+  isPlayingTrack: false,
+  track: null,
   tracks: [],
-  isPlayingAlbum: false,
-  albums: [],
-  isPlayingPlaylist: false,
-  playlists: [],
-  isPlayingRadio: false,
   volume: 100,
   shuffle: false,
 }
 
-export const AppContext = createContext<ContextState | any>(initState)
+export const AppContext = createContext<ContextState | any>(null)
 
 const reducer = (state = initState, action: AppCtxActions) => {
   switch (action.type) {
@@ -79,12 +41,32 @@ const reducer = (state = initState, action: AppCtxActions) => {
     case PLAYER.PLAY:
       const cachedData = recentlyPlayedCache(
         action.payload?.key,
-        action.payload?.value
+        action.payload?.track
       )
-      state.isPlayingTrack = true
-      state.tracks = [...cachedData]
 
-      return state
+      if (cachedData) {
+        const { id } = action.payload?.track
+
+        const tracks = [...cachedData]
+        const index = tracks.findIndex((item) => item.id === id)
+
+        if (index !== -1) {
+          tracks[index].isPlaying = true // Set isPlaying to true for the playing track
+
+          // Set isPlaying to false for all other tracks
+          tracks.forEach((item, i) => {
+            if (i !== index) {
+              item.isPlaying = false
+            }
+          })
+
+          state.isPlayingTrack = true
+          state.tracks = tracks
+
+          state = { ...state, tracks: [...tracks] }
+        }
+      }
+      break
     case PLAYER.PAUSE:
       state = { ...state, isPlayingTrack: false }
       break
@@ -109,16 +91,6 @@ const reducer = (state = initState, action: AppCtxActions) => {
     case PLAYER.CLEAR_QUEUE:
       state = { ...state, tracks: [] }
       break
-    // case PLAYER.LOOP:
-    //   break
-    // case PLAYER.SET_MUTE:
-    //   break
-    // case PLAY_ALBUM:
-    //   break
-    // case PLAY_PLAYLIST:
-    //   break
-    // case PLAY_RADIO:
-    //   break
 
     default:
       throw new Error(`invalid ${action.type} passed`)
@@ -137,4 +109,25 @@ export const AppContextProvider = ({
   const value = useMemo(() => [state, dispatch], [state, dispatch])
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>
+}
+
+export const useAppContext = () => {
+  const context =
+    useContext<[ContextState, Dispatch<AppCtxActions>]>(AppContext)
+
+  if (!context) {
+    throw new Error(
+      'useAppContext hook need to be use inside AppContextProvider!'
+    )
+  }
+
+  return context
+}
+
+// actions
+export const chooseTrack = (
+  dispatch: any,
+  payload: { key: number; track: PlayerTrack }
+) => {
+  return dispatch({ type: PLAYER.PLAY, payload })
 }

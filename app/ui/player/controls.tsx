@@ -1,7 +1,6 @@
-import { PlayerTrack } from '@/context/app-provider'
-import { cn } from '@/utils'
 import { Dispatch, SetStateAction } from 'react'
 import {
+  FiPause as PauseIcon,
   FiPlay as PlayIcon,
   FiRepeat as RepeatIcon,
   FiShuffle as ShuffleIcon,
@@ -9,6 +8,8 @@ import {
   FiSkipForward as SkipForwardIcon,
 } from 'react-icons/fi'
 
+import { PlayerTrack } from '@/types/context/app-provider'
+import { cn } from '@/utils'
 interface PlayerControlsProps {
   isPlaying: boolean
   queue: PlayerTrack[]
@@ -36,6 +37,7 @@ const Controls = ({
   handlePlayPrevious,
   handlePlayNext,
 }: PlayerControlsProps) => {
+  // console.log('🚀 ~ isPlaying:', isPlaying)
   const handleShuffle = () => setShuffle(!isShuffle)
   const handleRepeat = () => setRepeat(!isRepeat)
   const handleLoop = () => setLooping(!isLooping)
@@ -57,12 +59,15 @@ const Controls = ({
             onClick={handlePlayPrevious}
           />
           <button
-            id="play-button"
-            aria-label="play button"
-            className="w-10 h-10 flex items-center justify-center pl-1 rounded-full bg-white text-black"
+            id="play-pause-button"
+            aria-label="play pause button"
+            className={cn(
+              'w-10 h-10 flex items-center justify-center rounded-full bg-white text-black',
+              !isPlaying ? 'pl-1' : ''
+            )}
             onClick={handlePlayPause}
           >
-            <PlayIcon />
+            {isPlaying ? <PauseIcon /> : <PlayIcon />}
           </button>
           <SkipForwardIcon
             size={20}

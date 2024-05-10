@@ -1,3 +1,6 @@
+/**
+ * LRU cache to cache 25 recently played musics
+ */
 class LRU {
   constructor(max = 5) {
     this.max = max
@@ -22,13 +25,13 @@ class LRU {
   }
 }
 
-const recetlyPlayedLRU = new LRU()
+const recentlyPlayedLRU = new LRU(25)
 
 const recentlyPlayedCache = (key, track) => {
-  recetlyPlayedLRU.set(key, track)
+  recentlyPlayedLRU.set(key, track)
 
-  return Array.from(recetlyPlayedLRU.cache.values())
+  return Array.from(recentlyPlayedLRU.cache.values())
 }
 
 export default recentlyPlayedCache
-export { recetlyPlayedLRU }
+export { recentlyPlayedLRU }

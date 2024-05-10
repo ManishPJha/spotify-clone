@@ -3,12 +3,12 @@ import { AlbumCard } from '@app/ui/cards/index'
 import Albums from '@app/(dashboard)/_components/music-albums'
 
 import albumsData from '@/data/album.json'
+import { Track } from '@/types/context/app-provider'
 import { getBluredImageUrl } from '@/utils'
-
-async function transformData(data: AlbumCardProps[]) {
+async function transformData(data: Track[]) {
   const withBlurImageUrl = await Promise.all(
     data.map(async (album) => {
-      const blurImgSrc = await getBluredImageUrl(album.imageSrc)
+      const blurImgSrc = await getBluredImageUrl(album.image)
 
       return {
         ...album,
@@ -29,12 +29,15 @@ export default async function HomePage() {
         {/* <div className="skeleton w-32 h-32" /> */}
         {data.slice(0, 6).map((item, index) => (
           <AlbumCard
-            imageSrc={item.imageSrc}
-            audioSrc={item.audioSrc}
-            cardTitle={item.cardTitle}
-            redirectTo={`/playlist?${index}`}
+            imageSrc={item.image}
+            cardTitle={item.title}
             cardType="cover"
             blurImgSrc={item.blurImgSrc}
+            index={index}
+            track={{
+              ...item,
+              isPlaying: false,
+            }}
             key={index}
           />
         ))}
