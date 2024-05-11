@@ -36,7 +36,7 @@ export interface ContextState {
   pageHistoryStack: Array<any>
   isAuthenticated: boolean
   isPlayingTrack: boolean
-  track: PlayerTrack | null
+  track: PlayerTrack | undefined
   tracks: PlayerTrack[]
   volume: number
   shuffle: boolean

@@ -27,21 +27,11 @@ const Footer = () => {
 
   const playerTracks = useMemo(() => state.tracks, [state.tracks])
 
-  const currentTrack = playerTracks.find((track) => track.isPlaying)
-
-  // useEffect(() => {
-  //   if (state.tracks.length)
-  //     console.log('🍁if(state.tracks.length)', state.tracks)
-  // }, [state.tracks])
-
-  // if track is not playing do not show player
-  if (!state.isPlayingTrack) return null
+  // const currentTrack = playerTracks.find((track) => track.isPlaying)
 
   return (
     <footer className="bg-zinc-900 border-t border-zinc-700 px-6 py-3 mt-auto flex items-center justify-between fixed bottom-0 left-0 right-0">
-      {currentTrack && (
-        <AudioPlayer currentTrack={currentTrack} queue={playerTracks} />
-      )}
+      <AudioPlayer currentTrack={state.track} queue={playerTracks} />
     </footer>
   )
 

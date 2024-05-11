@@ -3,7 +3,7 @@
 import { CldImage } from 'next-cloudinary'
 import { useState } from 'react'
 
-import { FaPause as PauseIcon, FaPlay as PlayIcon } from 'react-icons/fa'
+import { FaPlay as PlayIcon } from 'react-icons/fa'
 
 import { chooseTrack, useAppContext } from '@/context/app-provider'
 import { PlayerTrack } from '@/types/context/app-provider'
@@ -47,7 +47,10 @@ const AlbumCard = ({
       : 'p-2 flex-col'
 
   const cardClassNames = cn(
-    'flex bg-white/5 rounded-md group' + ' ' + CardAnchorStyles
+    'flex bg-white/5 rounded-md group' + ' ' + CardAnchorStyles,
+    filteredTrack?.isPlaying && cardType === 'normal'
+      ? 'border-2 border-green-500'
+      : undefined
   )
 
   const title =
@@ -59,10 +62,10 @@ const AlbumCard = ({
     imageClassName
   )
 
-  const bool = true
-
-  const handlePlayPauseEvent = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handlePlayEvent = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
+
+    const bool = true
 
     if (!bool) setIsOpen(true)
 
@@ -70,8 +73,6 @@ const AlbumCard = ({
       key: index,
       track,
     })
-
-    return
   }
 
   return (
@@ -95,15 +96,14 @@ const AlbumCard = ({
       </span>
       <button
         className={cn(
-          'w-12 h-12 flex items-center justify-center rounded-full bg-green-600 text-black invisible group-hover:visible',
+          'w-12 h-12 flex items-center justify-center rounded-full pl-1 bg-green-600 text-black invisible group-hover:visible',
           cardType === 'cover'
             ? 'ml-auto mr-8'
-            : ' absolute bottom-24 md:bottom-20 right-4',
-          !filteredTrack?.isPlaying ? 'pl-1' : ''
+            : ' absolute bottom-24 md:bottom-20 right-4'
         )}
-        onClick={handlePlayPauseEvent} //TODO: add event to play stack top index track
+        onClick={handlePlayEvent} //TODO: add event to play stack top index track
       >
-        {filteredTrack?.isPlaying ? <PauseIcon /> : <PlayIcon />}
+        <PlayIcon />
       </button>
       {isOpen && <AuthModalWithAlbum open={isOpen} setOpen={setIsOpen} />}
     </div>

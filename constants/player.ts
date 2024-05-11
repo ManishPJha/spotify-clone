@@ -10,6 +10,7 @@ export const PREV = 'PREV'
 export const SEEK = 'SEEK'
 export const LOOP = 'LOOP'
 
+export const SET_PLAY = 'SET_PLAY'
 export const SET_VOLUME = 'SET_VOLUME'
 export const SET_MUTE = 'SET_MUTE'
 export const SET_REPEAT = 'SET_REPEAT'

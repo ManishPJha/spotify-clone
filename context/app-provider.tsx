@@ -20,7 +20,7 @@ const initState: ContextState = {
   pageHistoryStack: [],
   isAuthenticated: false,
   isPlayingTrack: false,
-  track: null,
+  track: undefined,
   tracks: [],
   volume: 100,
   shuffle: false,
@@ -61,13 +61,18 @@ const reducer = (state = initState, action: AppCtxActions) => {
           })
 
           state.isPlayingTrack = true
-          state.tracks = tracks
+
+          state.track = tracks[index]
 
           state = { ...state, tracks: [...tracks] }
         }
       }
       break
     case PLAYER.PAUSE:
+      const playingTrack = state.tracks.find((track) => track.isPlaying)
+      if (playingTrack) {
+        playingTrack.isPlaying = false
+      }
       state = { ...state, isPlayingTrack: false }
       break
     case PLAYER.NEXT:
@@ -75,6 +80,13 @@ const reducer = (state = initState, action: AppCtxActions) => {
       break
     case PLAYER.PREV:
       state = { ...state, isPlayingTrack: true, tracks: action.payload }
+      break
+    case PLAYER.SET_PLAY:
+      // if (state.track) {
+      //   state.track.isPlaying = action.payload
+      // }
+
+      state = { ...state, isPlayingTrack: action.payload }
       break
     case PLAYER.SET_VOLUME:
       state = { ...state, volume: action.payload }
@@ -130,4 +142,19 @@ export const chooseTrack = (
   payload: { key: number; track: PlayerTrack }
 ) => {
   return dispatch({ type: PLAYER.PLAY, payload })
+}
+
+export const setPlay = (
+  dispatch: any,
+  payload: boolean
+  // payload: {
+  //   trackId?: string
+  //   play: boolean
+  // }
+) => {
+  return dispatch({ type: PLAYER.SET_PLAY, payload })
+  // if (payload.trackId) {
+  // } else {
+  //   throw new Error('Invalid track')
+  // }
 }

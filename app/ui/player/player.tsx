@@ -17,6 +17,7 @@ const Player = forwardRef<any, PlayerProps>((props, ref) => {
       src={playingTrack}
       loop={repeat}
       muted={muted}
+      playsInline
       onTimeUpdate={onTimeUpdate}
       onLoadedData={onLoadedData}
       ref={ref}

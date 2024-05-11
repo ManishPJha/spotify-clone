@@ -1,22 +1,21 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import Controls from './controls'
 import Player from './player'
 import Track from './track'
 
-import { useAppContext } from '@/context/app-provider'
+import { setPlay, useAppContext } from '@/context/app-provider'
 
 import { PlayerTrack } from '@/types/context/app-provider'
 
 interface AudioPlayerProps {
-  currentTrack: PlayerTrack
+  currentTrack: PlayerTrack | undefined
   queue: PlayerTrack[]
 }
 
 const AudioPlayer = ({ currentTrack, queue = [] }: AudioPlayerProps) => {
-  const [play, setPlay] = useState(false)
   const [volume, setVolume] = useState(0.1)
   const [repeat, setRepeat] = useState(false)
   const [shuffle, setShuffle] = useState(false)
@@ -26,32 +25,32 @@ const AudioPlayer = ({ currentTrack, queue = [] }: AudioPlayerProps) => {
   const [duration, setDuration] = useState(0)
   const [seekTime, setSeekTime] = useState(0)
 
-  const [, dispatch] = useAppContext()
+  const [state, dispatch] = useAppContext()
 
-  const audioTrack =
-    'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3'
+  const playerRef = useRef<HTMLAudioElement>(null)
 
-  const handlePlayPause = () => {
-    setPlay(!play)
-
-    const payload = {
-      key: '000',
-      track: currentTrack,
-    }
-
-    // chooseTrack(dispatch, payload)
-  }
+  const handlePlayPause = () => setPlay(dispatch, !state.isPlayingTrack)
 
   const handlePlayNext = () => {}
 
   const handlePlayPrevious = () => {}
 
+  useEffect(() => {
+    if (playerRef.current) {
+      if (currentTrack && currentTrack.isPlaying && state.isPlayingTrack) {
+        playerRef.current.play()
+      } else playerRef.current.pause()
+    }
+  }, [currentTrack, state.isPlayingTrack, playerRef])
+
+  if (!currentTrack) return null
+
   return (
     <>
-      <Track play={play} playingTrack={currentTrack} />
+      <Track play={state.isPlayingTrack} playingTrack={currentTrack} />
       <Controls
         queue={queue}
-        isPlaying={currentTrack.isPlaying}
+        isPlaying={state.isPlayingTrack}
         isRepeat={repeat}
         setRepeat={setRepeat}
         isShuffle={shuffle}
@@ -63,6 +62,7 @@ const AudioPlayer = ({ currentTrack, queue = [] }: AudioPlayerProps) => {
         handlePlayPrevious={handlePlayPrevious}
       />
       <Player
+        ref={playerRef}
         playingTrack={currentTrack?.audio}
         repeat={repeat}
         muted={muted}
