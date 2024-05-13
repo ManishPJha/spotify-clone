@@ -30,6 +30,8 @@ export type Track = {
 
 export interface PlayerTrack extends Track {
   isPlaying: boolean
+  playTime: number
+  duration: number
 }
 
 export interface ContextState {
@@ -39,5 +41,7 @@ export interface ContextState {
   track: PlayerTrack | undefined
   tracks: PlayerTrack[]
   volume: number
+  seekTime: number
   shuffle: boolean
+  isMuted: boolean
 }

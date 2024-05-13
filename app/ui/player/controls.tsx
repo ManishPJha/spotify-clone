@@ -11,8 +11,10 @@ import {
 import { PlayerTrack } from '@/types/context/app-provider'
 import { cn } from '@/utils'
 interface PlayerControlsProps {
-  isPlaying: boolean
   queue: PlayerTrack[]
+  appTime: number
+  duration: number
+  isPlaying: boolean
   isRepeat: boolean
   setRepeat: Dispatch<SetStateAction<boolean>>
   isShuffle: boolean
@@ -26,6 +28,8 @@ interface PlayerControlsProps {
 
 const Controls = ({
   queue,
+  appTime,
+  duration,
   isPlaying,
   isRepeat,
   isLooping,
@@ -37,12 +41,14 @@ const Controls = ({
   handlePlayPrevious,
   handlePlayNext,
 }: PlayerControlsProps) => {
-  // console.log('🚀 ~ isPlaying:', isPlaying)
   const handleShuffle = () => setShuffle(!isShuffle)
   const handleRepeat = () => setRepeat(!isRepeat)
-  const handleLoop = () => setLooping(!isLooping)
 
   const defaultIconClasses = cn('text-zinc-200 cursor-pointer')
+
+  // converts the time to format 0:00
+  const getTime = (time: number) =>
+    `${Math.floor(time / 60)}:${`0${Math.floor(time % 60)}`.slice(-2)}`
 
   return (
     <>
@@ -81,14 +87,18 @@ const Controls = ({
           />
         </div>
         <div className="flex items-center gap-4 mt-3">
-          <span className="text-xs text-zinc-500">0:44</span>
+          <span className="text-xs text-zinc-500">
+            {appTime === 0 ? '0:00' : getTime(appTime)}
+          </span>
           <div
             style={{ width: '40vw' }}
             className="h-1 rounded-full bg-zinc-600"
           >
             <div className="h-full w-2/4 rounded-full bg-white"></div>
           </div>
-          <span className="text-xs text-zinc-500">4:44</span>
+          <span className="text-xs text-zinc-500">
+            {duration === 0 ? '0:00' : getTime(duration)}
+          </span>
         </div>
       </div>
     </>

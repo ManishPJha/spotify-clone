@@ -23,7 +23,9 @@ const initState: ContextState = {
   track: undefined,
   tracks: [],
   volume: 100,
+  seekTime: 0,
   shuffle: false,
+  isMuted: false,
 }
 
 export const AppContext = createContext<ContextState | any>(null)
@@ -82,14 +84,29 @@ const reducer = (state = initState, action: AppCtxActions) => {
       state = { ...state, isPlayingTrack: true, tracks: action.payload }
       break
     case PLAYER.SET_PLAY:
-      // if (state.track) {
-      //   state.track.isPlaying = action.payload
-      // }
-
       state = { ...state, isPlayingTrack: action.payload }
+      break
+    case PLAYER.SET_PLAY_TIME:
+      if (state.track) {
+        state.track.playTime = action.payload?.appTime
+        state.track.duration = action.payload?.duration
+      }
+      state = { ...state }
+      break
+    case PLAYER.SET_SEEK_TIME:
+      state = {
+        ...state,
+        seekTime: action.payload,
+      }
       break
     case PLAYER.SET_VOLUME:
       state = { ...state, volume: action.payload }
+      break
+    case PLAYER.SET_MUTE:
+      state = {
+        ...state,
+        isMuted: action.payload,
+      }
       break
     case PLAYER.SET_SHUFFLE:
       state = { ...state, shuffle: action.payload }
@@ -144,17 +161,25 @@ export const chooseTrack = (
   return dispatch({ type: PLAYER.PLAY, payload })
 }
 
-export const setPlay = (
-  dispatch: any,
-  payload: boolean
-  // payload: {
-  //   trackId?: string
-  //   play: boolean
-  // }
-) => {
+export const setPlay = (dispatch: any, payload: boolean) => {
   return dispatch({ type: PLAYER.SET_PLAY, payload })
-  // if (payload.trackId) {
-  // } else {
-  //   throw new Error('Invalid track')
-  // }
+}
+
+export const setVolume = (dispatch: any, payload: number) => {
+  return dispatch({ type: PLAYER.SET_VOLUME, payload })
+}
+
+export const setMute = (dispatch: any, payload: boolean) => {
+  return dispatch({ type: PLAYER.SET_MUTE, payload })
+}
+
+export const setPlayerTimings = (
+  dispatch: any,
+  payload: { playTime: number; duration: number }
+) => {
+  return dispatch({ type: PLAYER.SET_PLAY_TIME, payload })
+}
+
+export const setSeekTime = (dispatch: any, payload: number) => {
+  return dispatch({ type: PLAYER.SET_SEEK_TIME, payload })
 }

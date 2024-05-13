@@ -6,9 +6,17 @@ import Controls from './controls'
 import Player from './player'
 import Track from './track'
 
-import { setPlay, useAppContext } from '@/context/app-provider'
+import {
+  setMute,
+  setPlay,
+  setPlayerTimings,
+  setSeekTime as setSeekTimeValue,
+  setVolume as setVolumeValue,
+  useAppContext,
+} from '@/context/app-provider'
 
 import { PlayerTrack } from '@/types/context/app-provider'
+import VolumeBar from './volume-bar'
 
 interface AudioPlayerProps {
   currentTrack: PlayerTrack | undefined
@@ -43,6 +51,19 @@ const AudioPlayer = ({ currentTrack, queue = [] }: AudioPlayerProps) => {
     }
   }, [currentTrack, state.isPlayingTrack, playerRef])
 
+  useEffect(() => {
+    if (playerRef.current) {
+      playerRef.current.volume = volume
+
+      if (seekTime > 0) playerRef.current.currentTime = seekTime
+    }
+    // dispatch actions
+    setMute(dispatch, muted)
+    setVolumeValue(dispatch, volume)
+    setPlayerTimings(dispatch, { playTime: appTime, duration })
+    setSeekTimeValue(dispatch, seekTime)
+  }, [appTime, duration, muted, volume, seekTime, playerRef, dispatch])
+
   if (!currentTrack) return null
 
   return (
@@ -50,6 +71,8 @@ const AudioPlayer = ({ currentTrack, queue = [] }: AudioPlayerProps) => {
       <Track play={state.isPlayingTrack} playingTrack={currentTrack} />
       <Controls
         queue={queue}
+        appTime={state.track?.playTime || appTime}
+        duration={state.track?.duration || duration}
         isPlaying={state.isPlayingTrack}
         isRepeat={repeat}
         setRepeat={setRepeat}
@@ -66,8 +89,16 @@ const AudioPlayer = ({ currentTrack, queue = [] }: AudioPlayerProps) => {
         playingTrack={currentTrack?.audio}
         repeat={repeat}
         muted={muted}
+        seekTime={state.seekTime || seekTime}
+        volume={volume}
         onTimeUpdate={(e) => setAppTime(e.currentTarget.currentTime)}
         onLoadedData={(e) => setDuration(e.currentTarget.duration)}
+      />
+      <VolumeBar
+        isMuted={muted}
+        volume={volume}
+        setMute={setMuted}
+        setVolume={setVolume}
       />
     </>
   )
