@@ -3,9 +3,13 @@ import { AlbumCard } from '@app/ui/cards/index'
 import Albums from '@app/(dashboard)/_components/music-albums'
 
 import albumsData from '@/data/album.json'
-import { Track } from '@/types/context/app-provider'
 import { getBluredImageUrl } from '@/utils'
-async function transformData(data: Track[]) {
+
+import type { Track } from '@/redux/features/player'
+
+type TrackType = Omit<Track, 'isPlaying'>
+
+async function transformData(data: TrackType[]) {
   const withBlurImageUrl = await Promise.all(
     data.map(async (album) => {
       const blurImgSrc = await getBluredImageUrl(album.image)

@@ -1,9 +1,12 @@
-import { Track } from '@/types/context/app-provider'
 import { AlbumCard } from '@app/ui/cards/index'
+
+import type { Track } from '@/redux/features/player'
+
+type TrackType = Omit<Track, 'isPlaying'>
 
 type MusicAlbumsProps = {
   items: Array<
-    Track & {
+    TrackType & {
       blurImgSrc: string
       imageHeight?: string | number
       imageWidth?: string | number

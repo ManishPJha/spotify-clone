@@ -2,11 +2,11 @@ import Image from 'next/image'
 
 import { FiHeart as HeartIcon } from 'react-icons/fi'
 
-import { PlayerTrack } from '@/types/context/app-provider'
+import type { Track } from '@/redux/features/player'
 
 interface TrackProps {
   play: boolean
-  playingTrack: PlayerTrack
+  playingTrack: Track
 }
 
 const Track = ({ play, playingTrack }: TrackProps) => {

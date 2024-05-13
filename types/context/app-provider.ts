@@ -30,18 +30,18 @@ export type Track = {
 
 export interface PlayerTrack extends Track {
   isPlaying: boolean
-  playTime: number
-  duration: number
+  // playTime: number
+  // duration: number
 }
 
 export interface ContextState {
   pageHistoryStack: Array<any>
   isAuthenticated: boolean
-  isPlayingTrack: boolean
-  track: PlayerTrack | undefined
-  tracks: PlayerTrack[]
-  volume: number
-  seekTime: number
-  shuffle: boolean
-  isMuted: boolean
+  // isPlayingTrack: boolean
+  // track: PlayerTrack | undefined
+  // tracks: PlayerTrack[]
+  // volume: number
+  // seekTime: number
+  // shuffle: boolean
+  // isMuted: boolean
 }

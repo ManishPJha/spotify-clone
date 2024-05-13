@@ -5,8 +5,8 @@ import { useState } from 'react'
 
 import { FaPlay as PlayIcon } from 'react-icons/fa'
 
-import { chooseTrack, useAppContext } from '@/context/app-provider'
-import { PlayerTrack } from '@/types/context/app-provider'
+import { useReduxActions, useReduxState } from '@/hooks/useReduxActions'
+import { Track } from '@/redux/features/player'
 import { cn } from '@/utils'
 import AuthModalWithAlbum from '../modals/auth-modal-with-album'
 
@@ -19,7 +19,7 @@ interface AlbumCardProps {
   imageWidth?: string | number
   imageClassName?: string
   blurImgSrc?: string
-  track: PlayerTrack
+  track: Track
   index: number
 }
 
@@ -35,11 +35,12 @@ const AlbumCard = ({
   index,
   blurImgSrc,
 }: AlbumCardProps) => {
-  const [state, dispatch] = useAppContext()
+  const { chooseTrack } = useReduxActions()
+  const playerSelector = useReduxState((state) => state.player)
 
   const [isOpen, setIsOpen] = useState(false)
 
-  const filteredTrack = state.tracks.find((t) => t.id === track.id)
+  const filteredTrack = playerSelector.tracks.find((t) => t.id === track.id)
 
   const CardAnchorStyles =
     cardType === 'cover'
@@ -69,7 +70,7 @@ const AlbumCard = ({
 
     if (!bool) setIsOpen(true)
 
-    chooseTrack(dispatch, {
+    chooseTrack({
       key: index,
       track,
     })

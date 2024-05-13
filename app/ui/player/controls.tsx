@@ -1,4 +1,3 @@
-import { Dispatch, SetStateAction } from 'react'
 import {
   FiPause as PauseIcon,
   FiPlay as PlayIcon,
@@ -8,19 +7,19 @@ import {
   FiSkipForward as SkipForwardIcon,
 } from 'react-icons/fi'
 
-import { PlayerTrack } from '@/types/context/app-provider'
 import { cn } from '@/utils'
+
+import type { Track } from '@/redux/features/player'
+
 interface PlayerControlsProps {
-  queue: PlayerTrack[]
+  queue: Track[]
   appTime: number
   duration: number
   isPlaying: boolean
   isRepeat: boolean
-  setRepeat: Dispatch<SetStateAction<boolean>>
+  setRepeat: (bool: boolean) => void
   isShuffle: boolean
-  setShuffle: Dispatch<SetStateAction<boolean>>
-  isLooping: boolean
-  setLooping: Dispatch<SetStateAction<boolean>>
+  setShuffle: (bool: boolean) => void
   handlePlayPause: () => void
   handlePlayPrevious: () => void
   handlePlayNext: () => void
@@ -32,9 +31,7 @@ const Controls = ({
   duration,
   isPlaying,
   isRepeat,
-  isLooping,
   isShuffle,
-  setLooping,
   setRepeat,
   setShuffle,
   handlePlayPause,

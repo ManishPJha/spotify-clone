@@ -1,5 +1,4 @@
 import { cn } from '@/utils'
-import { Dispatch, SetStateAction } from 'react'
 import { IconType } from 'react-icons'
 import {
   FiMaximize as MaximizeIcon,
@@ -14,8 +13,8 @@ import { MdPictureInPictureAlt as PictureInPictureIcon } from 'react-icons/md'
 interface VolumeBarProps {
   volume: number
   isMuted: boolean
-  setVolume: Dispatch<SetStateAction<number>>
-  setMute: Dispatch<SetStateAction<boolean>>
+  setVolume: (value: number) => void
+  setMute: (value: boolean) => void
 }
 
 const defaultIconClasses = cn('text-zinc-200 cursor-pointer')
@@ -26,7 +25,7 @@ const VolumeBar = ({ isMuted, volume, setMute, setVolume }: VolumeBarProps) => {
   return (
     <div className="flex items-center gap-4">
       <QueueListIcon size={20} className={defaultIconClasses} />
-      {renderVolumeIcon(volumeIcon, 20, isMuted, setMute, setVolume)}
+      {renderVolumeIcon(volumeIcon, 20, isMuted, setMute)}
       {/* <div className="h-1 rounded-full w-24 bg-zinc-600">
         <div className="h-full w-3/4 rounded-full bg-white"></div>
       </div> */}
@@ -42,14 +41,12 @@ export const renderVolumeIcon = (
   icon: IconType,
   iconSize: number = 20,
   isMuted: boolean,
-  setMute: Dispatch<SetStateAction<boolean>>,
-  setVolume: Dispatch<SetStateAction<number>>
+  setMute: (value: boolean) => void
 ) => {
   const Icon = icon
 
   const handleMuteUnMuteAction = () => {
     setMute(!isMuted)
-    // setVolume(isMuted ? 0 : 1)
   }
 
   return (
