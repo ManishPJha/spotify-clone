@@ -6,7 +6,6 @@ import Providers from './providers'
 import 'slick-carousel/slick/slick-theme.css'
 import 'slick-carousel/slick/slick.css'
 import './globals.css'
-import './tailwind.css'
 
 const inter = Inter({ subsets: ['latin'] })
 

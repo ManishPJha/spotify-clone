@@ -21,7 +21,7 @@ class LRU {
   }
 
   first() {
-    return this.cache.keys().next().value()
+    return Array.from(this.cache.keys())[0]
   }
 }
 

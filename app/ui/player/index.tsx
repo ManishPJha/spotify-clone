@@ -39,6 +39,8 @@ const AudioPlayer = () => {
 
   const handlePlayPrevious = () => {}
 
+  const handlePlayEnded = (event: React.SyntheticEvent<HTMLAudioElement>) => {}
+
   useEffect(() => {
     if (playerRef.current) {
       if (currentTrack && currentTrack.isPlaying && player.isPlaying) {
@@ -74,6 +76,7 @@ const AudioPlayer = () => {
         volume={player.volume}
         onTimeUpdate={(e) => setPlayTime(e.currentTarget.currentTime)}
         onLoadedData={(e) => setPlayDuration(e.currentTarget.duration)}
+        onEnded={handlePlayEnded}
       />
       <VolumeBar
         isMuted={player.isMuted}

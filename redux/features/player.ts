@@ -69,24 +69,17 @@ export const player = createSlice({
       if (cachedTracks) {
         const { id } = action.payload?.track
 
-        const tracks = [...cachedTracks]
+        const tracks = cachedTracks.map((item) => ({
+          ...item,
+          isPlaying: item.id === id,
+        }))
+
         const index = tracks.findIndex((item) => item.id === id)
 
         if (index !== -1) {
-          // Set isPlaying to true for the playing track
-          tracks[index].isPlaying = true
-
-          // Set isPlaying to false for all other tracks
-          tracks.forEach((item, i) => {
-            if (i !== index) {
-              item.isPlaying = false
-            }
-          })
-
           state.isPlaying = true
-
           state.track = tracks[index]
-          state.tracks = [...tracks]
+          state.tracks = tracks
         }
       }
     },

@@ -89,7 +89,7 @@ const AlbumCard = ({
         blurDataURL={blurImgSrc}
         priority
       />
-      <strong className="text-md mt-3 mb-2 pl-2 font-bold overflow-x-auto truncate">
+      <strong className="text-md mt-3 mb-2 pl-2 font-bold overflow-x-auto truncate text-wrap">
         {title}
       </strong>
       <span className="text-md overflow-x-auto truncate font-medium text-zinc-400 pl-2 pr-2 mb-1">

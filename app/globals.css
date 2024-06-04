@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+@import 'tailwind.css';
+
+:root {
+  --primary: #000;
+  --secondary: #a0aec0;
+}
+
 * {
   margin: 0px;
   padding: 0px;

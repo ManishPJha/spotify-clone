@@ -8,6 +8,7 @@ interface PlayerProps {
   seekTime: number
   onTimeUpdate: (event: React.SyntheticEvent<HTMLAudioElement>) => void
   onLoadedData: (event: React.SyntheticEvent<HTMLAudioElement>) => void
+  onEnded: (event: React.SyntheticEvent<HTMLAudioElement>) => void
 }
 
 const Player = forwardRef(
@@ -20,6 +21,7 @@ const Player = forwardRef(
       seekTime,
       onTimeUpdate,
       onLoadedData,
+      onEnded,
     } = props || {}
 
     useEffect(() => {}, [volume])
@@ -34,6 +36,7 @@ const Player = forwardRef(
         playsInline
         onTimeUpdate={onTimeUpdate}
         onLoadedData={onLoadedData}
+        onEnded={onEnded}
         ref={ref}
       />
     )
