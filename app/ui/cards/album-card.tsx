@@ -6,7 +6,6 @@ import { useState } from 'react'
 import { FaPlay as PlayIcon } from 'react-icons/fa'
 
 import { useReduxActions, useReduxState } from '@/hooks/useReduxActions'
-import { Track } from '@/redux/features/player'
 import { cn } from '@/utils'
 import AuthModalWithAlbum from '../modals/auth-modal-with-album'
 

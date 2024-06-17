@@ -43,11 +43,11 @@ const AudioPlayer = () => {
 
   useEffect(() => {
     if (playerRef.current) {
-      if (currentTrack && currentTrack.isPlaying && player.isPlaying) {
-        playerRef.current.play()
-      } else playerRef.current.pause()
+      player.isPlaying && currentTrack
+        ? playerRef.current.play()
+        : playerRef.current.pause()
     }
-  }, [currentTrack, player.isPlaying, playerRef])
+  }, [currentTrack, player.isPlaying])
 
   if (!currentTrack) return null
 

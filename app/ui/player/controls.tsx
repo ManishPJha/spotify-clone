@@ -9,8 +9,6 @@ import {
 
 import { cn } from '@/utils'
 
-import type { Track } from '@/redux/features/player'
-
 interface PlayerControlsProps {
   queue: Track[]
   appTime: number

@@ -1,5 +1,3 @@
-'use client'
-
 import AudioPlayer from '@/app/ui/player'
 
 const Footer = () => {

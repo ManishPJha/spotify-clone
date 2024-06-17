@@ -13,6 +13,7 @@ import {
 
 import { createButton } from '@/app/ui/buttons/button-with-redirect'
 import Typography from '@/app/ui/typography'
+import { playlists } from '@/lib/constants'
 import Logo from '@public/images/icons/club9.png'
 
 const Sidebar = memo(function Sidebar() {
@@ -22,17 +23,6 @@ const Sidebar = memo(function Sidebar() {
   const isHomePage = pathname === '/'
   const isSearchPage = pathname === '/search'
   const isLibraryPage = pathname === '/library'
-
-  const playlists = [
-    'Liked songs',
-    'Daily Mix 1',
-    'RapCaviar',
-    'Release Radar',
-    'Rap Hits (2010 - 2023)',
-    'DOPE.',
-    'I Love My 90s',
-    'Travis Scott',
-  ]
 
   const HomeButton = createButton(HomeIcon, 'Home', '/', isHomePage)
   const SearchButton = createButton(

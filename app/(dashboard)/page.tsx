@@ -5,8 +5,6 @@ import Albums from '@app/(dashboard)/_components/music-albums'
 import albumsData from '@/data/album.json'
 import { getBluredImageUrl } from '@/utils'
 
-import type { Track } from '@/redux/features/player'
-
 type TrackType = Omit<Track, 'isPlaying'>
 
 async function transformData(data: TrackType[]) {
