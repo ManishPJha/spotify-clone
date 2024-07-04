@@ -7,7 +7,8 @@ import {
   FiSkipForward as SkipForwardIcon,
 } from 'react-icons/fi'
 
-import { cn } from '@/utils'
+import { cn, getTime } from '@/utils'
+import Seekbar from './seek-bar'
 
 interface PlayerControlsProps {
   queue: Track[]
@@ -15,9 +16,11 @@ interface PlayerControlsProps {
   duration: number
   isPlaying: boolean
   isRepeat: boolean
-  setRepeat: (bool: boolean) => void
   isShuffle: boolean
+  setRepeat: (bool: boolean) => void
   setShuffle: (bool: boolean) => void
+  // setSeekTime: Dispatch<SetStateAction<number>>
+  setSeekTime: (time: number) => void
   handlePlayPause: () => void
   handlePlayPrevious: () => void
   handlePlayNext: () => void
@@ -32,6 +35,7 @@ const Controls = ({
   isShuffle,
   setRepeat,
   setShuffle,
+  setSeekTime,
   handlePlayPause,
   handlePlayPrevious,
   handlePlayNext,
@@ -40,10 +44,6 @@ const Controls = ({
   const handleRepeat = () => setRepeat(!isRepeat)
 
   const defaultIconClasses = cn('text-zinc-200 cursor-pointer')
-
-  // converts the time to format 0:00
-  const getTime = (time: number) =>
-    `${Math.floor(time / 60)}:${`0${Math.floor(time % 60)}`.slice(-2)}`
 
   return (
     <>
@@ -85,12 +85,13 @@ const Controls = ({
           <span className="text-xs text-zinc-500">
             {appTime === 0 ? '0:00' : getTime(appTime)}
           </span>
-          <div
-            style={{ width: '40vw' }}
-            className="h-1 rounded-full bg-zinc-600"
-          >
-            <div className="h-full w-2/4 rounded-full bg-white"></div>
-          </div>
+          <Seekbar
+            appTime={appTime}
+            min={0}
+            max={duration}
+            setSeekTime={setSeekTime}
+            onInputChange={(e) => setSeekTime(parseInt(e.currentTarget.value))}
+          />
           <span className="text-xs text-zinc-500">
             {duration === 0 ? '0:00' : getTime(duration)}
           </span>

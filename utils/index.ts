@@ -41,3 +41,7 @@ export async function getBluredImageUrl(src: string): Promise<string> {
     )
   }
 }
+
+// converts the time to format 0:00
+export const getTime = (time: number) =>
+  `${Math.floor(time / 60)}:${`0${Math.floor(time % 60)}`.slice(-2)}`

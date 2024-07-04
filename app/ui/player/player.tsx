@@ -1,11 +1,9 @@
-import { forwardRef, useEffect } from 'react'
+import { forwardRef } from 'react'
 
 interface PlayerProps {
   playingTrack: string
   repeat: boolean
   muted: boolean
-  volume: number
-  seekTime: number
   onTimeUpdate: (event: React.SyntheticEvent<HTMLAudioElement>) => void
   onLoadedData: (event: React.SyntheticEvent<HTMLAudioElement>) => void
   onEnded: (event: React.SyntheticEvent<HTMLAudioElement>) => void
@@ -13,27 +11,15 @@ interface PlayerProps {
 
 const Player = forwardRef(
   (props: PlayerProps, ref: React.ForwardedRef<HTMLAudioElement>) => {
-    const {
-      playingTrack,
-      repeat,
-      muted,
-      volume,
-      seekTime,
-      onTimeUpdate,
-      onLoadedData,
-      onEnded,
-    } = props || {}
-
-    useEffect(() => {}, [volume])
-
-    useEffect(() => {}, [seekTime])
+    const { playingTrack, repeat, muted, onTimeUpdate, onLoadedData, onEnded } =
+      props || {}
 
     return (
       <audio
+        playsInline
         src={playingTrack}
         loop={repeat}
         muted={muted}
-        playsInline
         onTimeUpdate={onTimeUpdate}
         onLoadedData={onLoadedData}
         onEnded={onEnded}

@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo, useRef } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 
 import Controls from './controls'
 import Player from './player'
@@ -23,6 +23,7 @@ const AudioPlayer = () => {
     setShuffle,
     setPlayTime,
     setPlayDuration,
+    setAppSeekTime,
   } = useReduxActions()
 
   const currentTrack = useMemo(() => player.track, [player.track])
@@ -32,6 +33,9 @@ const AudioPlayer = () => {
   )
   const playTime = useMemo(() => player.playTime, [player.playTime])
   const playDuration = useMemo(() => player.playDuration, [player.playDuration])
+  const appSeekTime = useMemo(() => player.seekTime, [player.seekTime])
+
+  const [seekTime, setSeekTime] = useState(appSeekTime || 0)
 
   const handlePlayPause = () => setPlay(!player.isPlaying)
 
@@ -49,6 +53,13 @@ const AudioPlayer = () => {
     }
   }, [currentTrack, player.isPlaying])
 
+  useEffect(() => {
+    if (playerRef.current) {
+      playerRef.current.currentTime = seekTime
+      setAppSeekTime(seekTime)
+    }
+  }, [seekTime, playerRef, setAppSeekTime])
+
   if (!currentTrack) return null
 
   return (
@@ -63,6 +74,7 @@ const AudioPlayer = () => {
         setRepeat={setRepeat}
         isShuffle={player.isShuffle}
         setShuffle={setShuffle}
+        setSeekTime={setSeekTime}
         handlePlayPause={handlePlayPause}
         handlePlayNext={handlePlayNext}
         handlePlayPrevious={handlePlayPrevious}
@@ -72,8 +84,6 @@ const AudioPlayer = () => {
         playingTrack={currentTrack?.audio}
         repeat={player.isRepeat}
         muted={player.isMuted}
-        seekTime={player.seekTime}
-        volume={player.volume}
         onTimeUpdate={(e) => setPlayTime(e.currentTarget.currentTime)}
         onLoadedData={(e) => setPlayDuration(e.currentTarget.duration)}
         onEnded={handlePlayEnded}

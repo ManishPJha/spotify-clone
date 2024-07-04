@@ -1,6 +1,6 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import recentlyPlayedCache from '@/utils/cache'
+import recentlyPlayedCache from '@/utils/cache';
 
 const initialState: Player = {
   isMuted: false,
@@ -53,7 +53,7 @@ export const player = createSlice({
     setPlayDuration: (state, action: PayloadAction<number>) => {
       state.playDuration = action.payload
     },
-    setSeekTime: (state, action: PayloadAction<number>) => {
+    setAppSeekTime: (state, action: PayloadAction<number>) => {
       state.seekTime = action.payload
     },
     setVolume: (state, action: PayloadAction<number>) => {
