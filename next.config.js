@@ -14,9 +14,13 @@ const nextConfig = {
         hostname: 'picsum.photos',
         protocol: 'https',
       },
+      {
+        hostname: 'res.cloudinary.com',
+        protocol: 'https',
+      },
     ],
-    dangerouslyAllowSVG: true,
   },
+  // reactStrictMode: false,
 }
 
 module.exports = nextConfig
