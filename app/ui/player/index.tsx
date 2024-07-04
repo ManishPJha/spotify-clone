@@ -23,8 +23,10 @@ const AudioPlayer = () => {
     setShuffle,
     setPlayTime,
     setPlayDuration,
-    setAppSeekTime,
+    // setSeekTime
   } = useReduxActions()
+
+  const [seekTime, setSeekTime] = useState(0)
 
   const currentTrack = useMemo(() => player.track, [player.track])
   const queue = useMemo(
@@ -33,9 +35,6 @@ const AudioPlayer = () => {
   )
   const playTime = useMemo(() => player.playTime, [player.playTime])
   const playDuration = useMemo(() => player.playDuration, [player.playDuration])
-  const appSeekTime = useMemo(() => player.seekTime, [player.seekTime])
-
-  const [seekTime, setSeekTime] = useState(appSeekTime || 0)
 
   const handlePlayPause = () => setPlay(!player.isPlaying)
 
@@ -56,9 +55,8 @@ const AudioPlayer = () => {
   useEffect(() => {
     if (playerRef.current) {
       playerRef.current.currentTime = seekTime
-      setAppSeekTime(seekTime)
     }
-  }, [seekTime, playerRef, setAppSeekTime])
+  }, [seekTime, playerRef])
 
   if (!currentTrack) return null
 
